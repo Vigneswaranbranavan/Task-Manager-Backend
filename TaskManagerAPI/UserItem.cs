@@ -11,5 +11,10 @@ namespace TaskManagerAPI
         public string Email { get; set; }
         public string password { get; set; }
         public string PhoneNumber { get; set; }
+
+        public Address Address { get; set; }
+
+
+        public ICollection<TaskItem> Tasks { get; set; } = new List<TaskItem>();
     }
 }

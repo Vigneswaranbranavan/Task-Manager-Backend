@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagerAPI.Data;
 
@@ -11,9 +12,11 @@ using TaskManagerAPI.Data;
 namespace TaskManagerAPI.Migrations
 {
     [DbContext(typeof(TaskContext))]
-    partial class TaskContextModelSnapshot : ModelSnapshot
+    [Migration("20241101182733_AddAddress")]
+    partial class AddAddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,9 +66,6 @@ namespace TaskManagerAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AssigneeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -82,8 +82,6 @@ namespace TaskManagerAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AssigneeId");
 
                     b.ToTable("Tasks");
                 });
@@ -126,21 +124,10 @@ namespace TaskManagerAPI.Migrations
                     b.Navigation("UserItem");
                 });
 
-            modelBuilder.Entity("TaskManagerAPI.TaskItem", b =>
-                {
-                    b.HasOne("TaskManagerAPI.UserItem", "Assignee")
-                        .WithMany("Tasks")
-                        .HasForeignKey("AssigneeId");
-
-                    b.Navigation("Assignee");
-                });
-
             modelBuilder.Entity("TaskManagerAPI.UserItem", b =>
                 {
                     b.Navigation("Address")
                         .IsRequired();
-
-                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }

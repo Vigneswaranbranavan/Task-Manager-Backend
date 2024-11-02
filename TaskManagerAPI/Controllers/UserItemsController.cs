@@ -25,14 +25,14 @@ namespace TaskManagerAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserItem>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.Include(a => a.Address).ToListAsync();
         }
 
         // GET: api/UserItems/5
         [HttpGet("{id}")]
         public async Task<ActionResult<UserItem>> GetUserItem(int id)
         {
-            var userItem = await _context.Users.FindAsync(id);
+            var userItem = await _context.Users.Include(a => a.Address).FirstOrDefaultAsync(b=>id == b.Id); 
 
             if (userItem == null)
             {
